@@ -8,14 +8,20 @@ This is **clox**, a bytecode virtual machine implementation of the Lox programmi
 
 ## Build & Run
 
-Currently, there's no Makefile. Build manually:
+Build using Make:
 
 ```bash
-# Compile all source files
-gcc -o clox *.c
+# Build the interpreter
+make
 
 # Run the interpreter
 ./clox
+
+# Run REPL mode
+./clox
+
+# Run a Lox file
+./clox script.lox
 ```
 
 ## Architecture
@@ -112,6 +118,106 @@ freeChunk(&chunk);      // Deallocate and reset
 - `runFile()`: reads entire file and interprets
 - Proper exit codes: 64 (usage), 65 (compile error), 70 (runtime error), 74 (I/O error)
 
+## Testing
+
+The project uses a comprehensive testing infrastructure with both unit tests and integration tests.
+
+### Running Tests
+
+```bash
+# Run all tests (unit + integration)
+make test
+
+# Run only unit tests
+make test-unit
+
+# Run only integration tests
+make test-integration
+
+# Clean build artifacts
+make clean
+```
+
+### Unit Tests
+
+Unit tests are written in C using the [CMocka](https://cmocka.org/) testing framework. Tests are located in `test/unit/`.
+
+**Test Coverage:**
+- `test_memory.c` - Memory allocation and dynamic array growth
+- `test_chunk.c` - Bytecode chunk operations and constant pool
+- `test_value.c` - Value array operations
+- `test_scanner.c` - Lexical analysis and tokenization
+- `test_vm.c` - VM stack operations and instruction execution
+
+**Writing Unit Tests:**
+
+```c
+#include <stdarg.h>
+#include <stddef.h>
+#include <setjmp.h>
+#include <stdlib.h>
+#include <cmocka.h>
+#include "chunk.h"
+
+static void test_example(void **state) {
+    (void) state;
+    Chunk chunk;
+    initChunk(&chunk);
+
+    assert_int_equal(chunk.count, 0);
+    freeChunk(&chunk);
+}
+
+int main(void) {
+    const struct CMUnitTest tests[] = {
+        cmocka_unit_test(test_example),
+    };
+    return cmocka_run_group_tests(tests, NULL, NULL);
+}
+```
+
+### Integration Tests
+
+Integration tests are end-to-end tests written as `.lox` files with expected output annotations. Tests are located in `test/integration/`.
+
+**Test File Format:**
+
+```lox
+// test/integration/arithmetic/add.lox
+print 1 + 2; // expect: 3
+print 5 + 5; // expect: 10
+```
+
+The Python test runner (`test/run_tests.py`) parses these annotations:
+- `// expect: <output>` - Expected output line
+- `// expect runtime error: <message>` - Expected runtime error
+- `// expect compile error` - Expected compilation error
+
+**Writing Integration Tests:**
+
+1. Create a `.lox` file in `test/integration/`
+2. Add Lox code with `// expect:` comments
+3. Run `make test-integration`
+
+**Current Test Suites:**
+- `arithmetic/` - Addition, subtraction, multiplication, division, negation, precedence
+
+### Test-Driven Development
+
+When adding new features:
+
+1. **Write integration tests first** - Define expected behavior in `.lox` files
+2. **Write unit tests** - Test individual components (scanner, compiler, VM)
+3. **Implement the feature** - Make tests pass
+4. **Run all tests** - Ensure no regressions with `make test`
+
+### Testing Guidelines
+
+- Every new VM opcode needs unit tests in `test_vm.c`
+- Every language feature needs integration tests in `test/integration/`
+- Scanner changes require tokenization tests in `test_scanner.c`
+- Run tests frequently during development to catch issues early
+
 ## Development Notes
 
 - The VM is progressing through Chapters 14-16 of Crafting Interpreters
@@ -120,3 +226,4 @@ freeChunk(&chunk);      // Deallocate and reset
 - VM execution loop supports arithmetic operations
 - REPL and file loading are functional
 - Line tracking allows error messages to reference source locations
+- Comprehensive test suite covers memory, chunks, values, scanner, and VM

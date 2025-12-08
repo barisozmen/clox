@@ -1,0 +1,4 @@
+print 1 + 2 * 3 - 4 / 2; // expect: 5
+print (1 + 2) * (3 - 4) / 2; // expect: -1.5
+print -2 * 3 + 4; // expect: -2
+print -(2 + 3) * 4; // expect: -20

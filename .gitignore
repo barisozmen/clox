@@ -57,3 +57,11 @@ dkms.conf
 
 # debug information files
 *.dwo
+
+# clox-specific
+clox
+build/
+*.s
+
+# macOS
+.DS_Store
