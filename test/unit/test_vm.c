@@ -47,151 +47,50 @@ static void test_stack_operations(void **state) {
 static void test_vm_constant_instruction(void **state) {
     (void) state;
 
-    Chunk chunk;
-    initChunk(&chunk);
-
-    int constant = addConstant(&chunk, 1.2);
-    writeChunk(&chunk, OP_CONSTANT, 123);
-    writeChunk(&chunk, constant, 123);
-    writeChunk(&chunk, OP_RETURN, 123);
-
-    InterpretResult result = interpret(&chunk);
+    InterpretResult result = interpret("1.2");
     assert_int_equal(result, INTERPRET_OK);
-
-    freeChunk(&chunk);
 }
 
 static void test_vm_add_instruction(void **state) {
     (void) state;
 
-    Chunk chunk;
-    initChunk(&chunk);
-
-    int constant1 = addConstant(&chunk, 1.2);
-    int constant2 = addConstant(&chunk, 3.4);
-
-    writeChunk(&chunk, OP_CONSTANT, 123);
-    writeChunk(&chunk, constant1, 123);
-    writeChunk(&chunk, OP_CONSTANT, 123);
-    writeChunk(&chunk, constant2, 123);
-    writeChunk(&chunk, OP_ADD, 123);
-    writeChunk(&chunk, OP_RETURN, 123);
-
-    InterpretResult result = interpret(&chunk);
+    InterpretResult result = interpret("1.2 + 3.4");
     assert_int_equal(result, INTERPRET_OK);
-
-    freeChunk(&chunk);
 }
 
 static void test_vm_subtract_instruction(void **state) {
     (void) state;
 
-    Chunk chunk;
-    initChunk(&chunk);
-
-    int constant1 = addConstant(&chunk, 5.0);
-    int constant2 = addConstant(&chunk, 3.0);
-
-    writeChunk(&chunk, OP_CONSTANT, 123);
-    writeChunk(&chunk, constant1, 123);
-    writeChunk(&chunk, OP_CONSTANT, 123);
-    writeChunk(&chunk, constant2, 123);
-    writeChunk(&chunk, OP_SUBTRACT, 123);
-    writeChunk(&chunk, OP_RETURN, 123);
-
-    InterpretResult result = interpret(&chunk);
+    InterpretResult result = interpret("5.0 - 3.0");
     assert_int_equal(result, INTERPRET_OK);
-
-    freeChunk(&chunk);
 }
 
 static void test_vm_multiply_instruction(void **state) {
     (void) state;
 
-    Chunk chunk;
-    initChunk(&chunk);
-
-    int constant1 = addConstant(&chunk, 2.0);
-    int constant2 = addConstant(&chunk, 3.0);
-
-    writeChunk(&chunk, OP_CONSTANT, 123);
-    writeChunk(&chunk, constant1, 123);
-    writeChunk(&chunk, OP_CONSTANT, 123);
-    writeChunk(&chunk, constant2, 123);
-    writeChunk(&chunk, OP_MULTIPLY, 123);
-    writeChunk(&chunk, OP_RETURN, 123);
-
-    InterpretResult result = interpret(&chunk);
+    InterpretResult result = interpret("2.0 * 3.0");
     assert_int_equal(result, INTERPRET_OK);
-
-    freeChunk(&chunk);
 }
 
 static void test_vm_divide_instruction(void **state) {
     (void) state;
 
-    Chunk chunk;
-    initChunk(&chunk);
-
-    int constant1 = addConstant(&chunk, 6.0);
-    int constant2 = addConstant(&chunk, 2.0);
-
-    writeChunk(&chunk, OP_CONSTANT, 123);
-    writeChunk(&chunk, constant1, 123);
-    writeChunk(&chunk, OP_CONSTANT, 123);
-    writeChunk(&chunk, constant2, 123);
-    writeChunk(&chunk, OP_DIVIDE, 123);
-    writeChunk(&chunk, OP_RETURN, 123);
-
-    InterpretResult result = interpret(&chunk);
+    InterpretResult result = interpret("6.0 / 2.0");
     assert_int_equal(result, INTERPRET_OK);
-
-    freeChunk(&chunk);
 }
 
 static void test_vm_negate_instruction(void **state) {
     (void) state;
 
-    Chunk chunk;
-    initChunk(&chunk);
-
-    int constant = addConstant(&chunk, 5.0);
-
-    writeChunk(&chunk, OP_CONSTANT, 123);
-    writeChunk(&chunk, constant, 123);
-    writeChunk(&chunk, OP_NEGATE, 123);
-    writeChunk(&chunk, OP_RETURN, 123);
-
-    InterpretResult result = interpret(&chunk);
+    InterpretResult result = interpret("-5.0");
     assert_int_equal(result, INTERPRET_OK);
-
-    freeChunk(&chunk);
 }
 
 static void test_vm_complex_expression(void **state) {
     (void) state;
 
-    Chunk chunk;
-    initChunk(&chunk);
-
-    int constant1 = addConstant(&chunk, 1.2);
-    int constant2 = addConstant(&chunk, 3.4);
-    int constant3 = addConstant(&chunk, 5.6);
-
-    writeChunk(&chunk, OP_CONSTANT, 123);
-    writeChunk(&chunk, constant1, 123);
-    writeChunk(&chunk, OP_CONSTANT, 123);
-    writeChunk(&chunk, constant2, 123);
-    writeChunk(&chunk, OP_ADD, 123);
-    writeChunk(&chunk, OP_CONSTANT, 123);
-    writeChunk(&chunk, constant3, 123);
-    writeChunk(&chunk, OP_MULTIPLY, 123);
-    writeChunk(&chunk, OP_RETURN, 123);
-
-    InterpretResult result = interpret(&chunk);
+    InterpretResult result = interpret("(1.2 + 3.4) * 5.6");
     assert_int_equal(result, INTERPRET_OK);
-
-    freeChunk(&chunk);
 }
 
 int main(void) {
