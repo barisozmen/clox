@@ -44,6 +44,8 @@ gcc -o clox *.c
 **OpCode System** (chunk.h)
 - `OpCode` enum defines bytecode instructions:
   - `OP_CONSTANT`: load constant from constants array
+  - `OP_ADD`, `OP_SUBTRACT`, `OP_MULTIPLY`, `OP_DIVIDE`: binary arithmetic operations
+  - `OP_NEGATE`: unary negation operation
   - `OP_RETURN`: return from current function
 - Instructions are 1-byte opcodes, some followed by operand bytes
 
@@ -74,10 +76,47 @@ freeChunk(&chunk);      // Deallocate and reset
 
 **Constant Pool Indexing**: Constants stored in chunk.constants array, referenced by index in bytecode. Currently limited to 256 constants (uint8_t index).
 
+**Virtual Machine** (vm.h, vm.c)
+- Stack-based VM with 256-slot value stack
+- `VM` struct contains:
+  - `chunk`: pointer to bytecode chunk being executed
+  - `ip`: instruction pointer (points to next byte to execute)
+  - `stack`: fixed-size array of Values
+  - `stackTop`: points to next empty stack slot
+- `run()`: main execution loop that fetches, decodes, and executes bytecode
+- Stack operations: `push()` and `pop()` for value manipulation
+- Arithmetic operations implemented: ADD, SUBTRACT, MULTIPLY, DIVIDE, NEGATE
+- Uses macros for bytecode reading: `READ_BYTE()`, `READ_CONSTANT()`, `BINARY_OP()`
+
+**Scanner** (scanner.h, scanner.c)
+- Lexical analyzer that tokenizes Lox source code
+- `Scanner` struct tracks:
+  - `start`: beginning of current token
+  - `current`: current character being examined
+  - `line`: current line number
+- `Token` struct contains type, lexeme location (start/length), and line number
+- Supports all Lox token types: operators, keywords, literals, identifiers
+- Features: lookahead (`peek()`, `peekNext()`), keyword recognition, string/number literals
+- Handles single-char tokens, two-char operators, comments, whitespace
+
+**Compiler** (compiler.h, compiler.c)
+- Bridges scanner and VM by compiling source code to bytecode
+- `compile()`: entry point for compilation pipeline
+- Currently in development (scanner integration phase)
+
+**Main Program** (main.c)
+- Two execution modes:
+  - REPL: Interactive line-by-line interpreter (`./clox`)
+  - File execution: Run Lox scripts (`./clox script.lox`)
+- `repl()`: reads and interprets lines in loop
+- `runFile()`: reads entire file and interprets
+- Proper exit codes: 64 (usage), 65 (compile error), 70 (runtime error), 74 (I/O error)
+
 ## Development Notes
 
-- The VM is in early stages (Chapter 14 of Crafting Interpreters)
-- No scanner, parser, or VM execution loop yet
-- main.c currently contains a hardcoded test chunk
-- Line tracking allows future error messages to reference source locations
-- Static helper functions in debug.c need forward declarations or reordering
+- The VM is progressing through Chapters 14-16 of Crafting Interpreters
+- Scanner is complete and functional
+- Compiler is in development
+- VM execution loop supports arithmetic operations
+- REPL and file loading are functional
+- Line tracking allows error messages to reference source locations
