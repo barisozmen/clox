@@ -1,0 +1,82 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Wall",
+      "-Wextra",
+      "-std=c11",
+      "-g",
+      "-c",
+      "-o",
+      "chunk.o",
+      "chunk.c"
+    ],
+    "directory": "/Users/barisozmen/development/github/barisozmen/clox",
+    "file": "/Users/barisozmen/development/github/barisozmen/clox/chunk.c",
+    "output": "/Users/barisozmen/development/github/barisozmen/clox/chunk.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Wall",
+      "-Wextra",
+      "-std=c11",
+      "-g",
+      "-c",
+      "-o",
+      "debug.o",
+      "debug.c"
+    ],
+    "directory": "/Users/barisozmen/development/github/barisozmen/clox",
+    "file": "/Users/barisozmen/development/github/barisozmen/clox/debug.c",
+    "output": "/Users/barisozmen/development/github/barisozmen/clox/debug.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Wall",
+      "-Wextra",
+      "-std=c11",
+      "-g",
+      "-c",
+      "-o",
+      "main.o",
+      "main.c"
+    ],
+    "directory": "/Users/barisozmen/development/github/barisozmen/clox",
+    "file": "/Users/barisozmen/development/github/barisozmen/clox/main.c",
+    "output": "/Users/barisozmen/development/github/barisozmen/clox/main.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Wall",
+      "-Wextra",
+      "-std=c11",
+      "-g",
+      "-c",
+      "-o",
+      "memory.o",
+      "memory.c"
+    ],
+    "directory": "/Users/barisozmen/development/github/barisozmen/clox",
+    "file": "/Users/barisozmen/development/github/barisozmen/clox/memory.c",
+    "output": "/Users/barisozmen/development/github/barisozmen/clox/memory.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Wall",
+      "-Wextra",
+      "-std=c11",
+      "-g",
+      "-c",
+      "-o",
+      "value.o",
+      "value.c"
+    ],
+    "directory": "/Users/barisozmen/development/github/barisozmen/clox",
+    "file": "/Users/barisozmen/development/github/barisozmen/clox/value.c",
+    "output": "/Users/barisozmen/development/github/barisozmen/clox/value.o"
+  }
+]
